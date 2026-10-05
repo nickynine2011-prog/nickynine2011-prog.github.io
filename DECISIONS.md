@@ -9,7 +9,7 @@ This file explains every significant choice behind the site: what was chosen, wh
 **Why:** it is free, needs no build step, and serves over HTTPS with a CDN. A repository with this exact name publishes at the root URL (`https://nickynine2011-prog.github.io/`) rather than a sub-path like `/nikhileshmclaude/`. A shorter URL is easier to type from a CV and looks deliberate.
 
 **Not chosen:**
-- *Project site in the existing private repo.* Free Pages requires a public repo, and the URL would carry the sub-path `/nikhileshmclaude/`.
+- *Project site in the `nikhileshmclaude` repo.* This works, but the URL carries the sub-path `/nikhileshmclaude/`, which is longer and reads like a repository name rather than a person.
 - *Netlify, Vercel, Cloudflare Pages.* All are free and good, but each adds a second account and dashboard to maintain. You asked for GitHub.
 - *A custom domain such as nikhileshmoosapeta.com.* It is the single biggest upgrade available (about CA$15–25 a year), but you asked to keep everything free. Adding one later takes about ten minutes: buy the domain, add a `CNAME` file, and set DNS. The site needs no other changes.
 
@@ -27,8 +27,8 @@ This file explains every significant choice behind the site: what was chosen, wh
 **Chosen:** a single scrolling page. The order is introduction, education, clinical experience, research and writing, leadership and mentoring, training, awards, other work, contact. Entries run in reverse chronological order.
 
 **Why:**
-- Program directors and recruiters skim. The Ladders eye-tracking study (2018) found an average first look of about 7.4 seconds, concentrated on name, current role, current organisation, dates and education, in an F-shaped pattern. The page puts exactly those at the top and the dates in a scannable left column.
-- AAFP and other residency CV guides recommend listing the most recent items first and grouping research, presentations, leadership and honours. The section names follow that convention, so a reader can map the site onto an ERAS or CaRMS application.
+- Program directors and recruiters skim. The Ladders eye-tracking study (2018) found an average first look of about 7.4 seconds, concentrated on name, current role, current organization, dates and education, in an F-shaped pattern. The page puts exactly those at the top and the dates in a scannable left column.
+- Residency CV guides (AAFP, Blueprint) recommend listing the most recent items first and grouping research, presentations, leadership and honours. The section names follow that convention, so a reader can map the site onto an ERAS or CaRMS application.
 - One page means one URL to share, and every section is a single tap away from the top.
 
 **Not chosen:** separate pages for About, CV and Contact. With this amount of content, extra pages only add clicks.
@@ -43,21 +43,21 @@ This file explains every significant choice behind the site: what was chosen, wh
 
 ## 5. Visual design: typographic, quiet, deliberately not "template"
 
-AI-generated and template sites share a recognisable fingerprint. Design-critique sources list the Inter typeface, purple or indigo gradients, three rounded cards in a row, a centred hero with two buttons, emoji or Lucide icons, glassmorphism and fade-in-on-scroll animations. This site avoids all of them.
+AI-generated and template sites share a recognizable fingerprint. Design-critique sources list the Inter typeface, purple or indigo gradients, three rounded cards in a row, a centred hero with two buttons, emoji or Lucide icons, glassmorphism and fade-in-on-scroll animations. This site avoids all of them.
 
 **Typeface: Source Serif 4** (Adobe, SIL Open Font License), self-hosted.
-- *Why a serif:* research finds no meaningful readability difference between serif and sans-serif on screens (Arditi & Cho 2005 and later reviews), so the choice comes down to tone. Medical journals and academic CVs are set in serif type. Using one signals "academic and clinical" rather than "tech start-up".
-- *Why Source Serif 4:* it was drawn for screens and has optical sizes, so the large name and the small body text are each cut for their size.
+- *Why a serif:* research finds no meaningful readability difference between serif and sans-serif on screens (Arditi & Cho 2005 and later reviews), so the choice comes down to tone. Many medical journals and most academic CVs are set in serif type. Using one signals "academic and clinical" rather than "tech start-up".
+- *Why Source Serif 4:* it is a free, open-licence family with optical sizes, so the large name and the small body text are each drawn for their size. It is also far less common on the web than Inter, Roboto or Playfair Display.
 - *Why self-hosted:* in January 2022 a Munich court ruled that loading Google Fonts from Google's servers sent visitors' IP addresses to Google without consent, breaching GDPR. You study at an Irish university, so European visitors are likely. Self-hosting removes the issue and saves a connection to a third-party server.
 - Dates and small labels use the device's own sans-serif font. It costs nothing to load and has tabular figures, so dates line up.
 
-**Colour:** near-black ink on warm off-white paper, with one restrained navy for links. Blue is the colour most associated with trust in healthcare. Using it only for links keeps it functional rather than decorative. There are no gradients.
+**Colour:** near-black ink on warm off-white paper, with one restrained navy used only for links. Navy is the conventional link colour and a familiar one in clinical and academic settings. Keeping it to links makes it functional rather than decorative. There are no gradients and no second accent colour.
 
-**Dark mode:** follows the device setting automatically through `prefers-color-scheme`, with no toggle. A toggle needs JavaScript and is another control to maintain, and most visitors already set this once at the system level.
+**Dark mode:** follows the device setting automatically through `prefers-color-scheme`, with no toggle. A toggle needs JavaScript and is another control to maintain. Visitors who prefer dark mode have usually already set it on their device, and the site follows that.
 
-**Layout and measure:** body text is about 18px with lines capped near 66 characters. Readability research puts the optimum at 50–75 characters per line, and WCAG advises no more than 80.
+**Layout and measure:** body text is 18px (17px on phones). Lines run about 60–75 characters on a desktop, measured in the browser. Readability research puts the optimum at 50–75 characters per line, and WCAG advises no more than 80.
 
-**Photo:** none at launch, because no professional headshot was found. Stanford's web-credibility research shows real photos of real people increase trust, so a headshot is the top content addition (see README).
+**Photo:** none at launch, because no professional headshot was found. Stanford's web-credibility guidelines advise showing the real person behind a site, and a photo is the most direct way to do that, so a headshot is the top content addition (see README).
 
 **Motion:** none. Scroll-reveal animations hide content until JavaScript runs, can trouble people with vestibular disorders, and are a template cliché.
 

@@ -412,16 +412,6 @@ h3 {
     display: block;
   }
 
-  .intro {
-    max-width: none;
-    padding-bottom: 0;
-  }
-
-  .intro p {
-    font-size: 10.5pt;
-    margin-bottom: 0.5em;
-  }
-
   section[id] {
     margin-top: 0.7rem;
     padding-top: 0.45rem;

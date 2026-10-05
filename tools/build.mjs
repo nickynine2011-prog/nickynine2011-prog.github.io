@@ -23,7 +23,7 @@ const types = {
   ".pdf": "application/pdf",
 };
 
-// Serve the repo root so absolute paths like /assets/site.css resolve.
+// Serve the repo root over HTTP so the page loads its CSS and fonts as it would online.
 const server = createServer(async (req, res) => {
   const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname));
   const file = join(root, path.endsWith("/") ? path + "index.html" : path);
@@ -49,6 +49,8 @@ const browser = await chromium.launch(
   await page.goto(`${base}/`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   await page.emulateMedia({ media: "print" });
+  // Reuse the "Updated ..." date from the page footer so the PDF never disagrees with the site.
+  const updated = await page.textContent(".colophon time");
   await page.pdf({
     path: join(root, "Nikhilesh-Moosapeta-CV.pdf"),
     format: "Letter",
@@ -59,7 +61,7 @@ const browser = await chromium.launch(
     displayHeaderFooter: true,
     headerTemplate: "<span></span>",
     footerTemplate: `<div style="width:100%;padding:0 0.6in;font:7.5pt system-ui,sans-serif;color:#555;display:flex;justify-content:space-between">
-      <span>Nikhilesh Moosapeta · CV · Updated October 2026</span>
+      <span>Nikhilesh Moosapeta · CV · Updated ${updated}</span>
       <span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span></div>`,
   });
   await page.close();

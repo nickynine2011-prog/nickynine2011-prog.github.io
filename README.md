@@ -1,6 +1,6 @@
 # Nikhilesh Moosapeta: personal site
 
-Live at **https://nickynine2011-prog.github.io/**
+Intended address: **https://nickynine2011-prog.github.io/** (not published yet; see the hosting steps in DECISIONS.md, section 1).
 
 A single-page professional portfolio and CV. It is plain HTML and CSS with no framework, no JavaScript and no build step for the page itself. GitHub Pages serves the files exactly as they are in the `main` branch.
 
