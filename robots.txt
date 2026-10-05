@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nickynine2011-prog.github.io/sitemap.xml
