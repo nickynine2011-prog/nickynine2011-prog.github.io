@@ -1,0 +1,15 @@
+{
+  "name": "site-tools",
+  "private": true,
+  "type": "module",
+  "description": "Build and audit scripts for the personal site. Not served as part of the page.",
+  "scripts": {
+    "build": "node build.mjs",
+    "audit": "node audit.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.13.0",
+    "html-validate": "^9.7.1",
+    "playwright": "^1.56.1"
+  }
+}

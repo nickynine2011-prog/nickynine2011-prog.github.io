@@ -1,0 +1,459 @@
+/* Nikhilesh Moosapeta, personal site.
+   Reasoning for each choice lives in DECISIONS.md. */
+
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("fonts/source-serif-4-roman.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("fonts/source-serif-4-italic.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --paper: #faf8f4;
+  --ink: #1c1f23;
+  --muted: #5b5f66;
+  --rule: #ddd8cf;
+  --link: #1d4a7a;
+  --link-hover: #0f3359;
+  --focus: #1d4a7a;
+
+  --serif: "Source Serif 4", Charter, "Bitstream Charter", Cambria, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --measure: 40rem;
+  --gutter: 8.5rem;
+  --page: calc(var(--measure) + var(--gutter) + 2.5rem);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #16181b;
+    --ink: #e7e4de;
+    --muted: #a3a7ad;
+    --rule: #33373c;
+    --link: #9cc3ee;
+    --link-hover: #c4dcf6;
+    --focus: #9cc3ee;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 1.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Page frame */
+.masthead,
+main,
+.colophon {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* Links: underlined so they never rely on colour alone */
+a {
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  z-index: 10;
+}
+
+.skip:focus {
+  top: 1rem;
+}
+
+/* Masthead */
+.masthead {
+  padding-top: clamp(3rem, 9vw, 6.5rem);
+  padding-bottom: 2rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7.5vw, 4.25rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+.role {
+  margin: 0.75rem 0 0;
+  font-size: clamp(1.125rem, 2.4vw, 1.375rem);
+  color: var(--muted);
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.375rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+}
+
+nav a {
+  display: inline-block;
+  padding-block: 0.3rem;
+  min-height: 24px;
+}
+
+/* Intro */
+.intro {
+  max-width: var(--measure);
+  padding-bottom: 1rem;
+}
+
+.intro p {
+  margin: 0 0 1em;
+  font-size: 1.1875rem;
+}
+
+/* Sections */
+section[id] {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.75rem;
+  margin-top: 2.25rem;
+}
+
+h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Entries: dates in a left column so they can be scanned top to bottom */
+.entry {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, var(--measure));
+  column-gap: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.when {
+  margin: 0;
+  padding-top: 0.2rem;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.when time {
+  white-space: nowrap;
+}
+
+.note {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.where {
+  margin: 0.1rem 0 0.4rem;
+  color: var(--muted);
+}
+
+.what > p:not(.where) {
+  margin: 0;
+}
+
+.what ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.what li + li {
+  margin-top: 0.3rem;
+}
+
+.what li::marker {
+  color: var(--muted);
+}
+
+/* Short lists sit in the content column, aligned with entry text */
+.plain {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding-left: calc(var(--gutter) + 2.5rem);
+  max-width: calc(var(--measure) + var(--gutter) + 2.5rem);
+}
+
+.plain li + li {
+  margin-top: 0.4rem;
+}
+
+/* Contact */
+.contact {
+  margin: 0;
+}
+
+.contact > div {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, var(--measure));
+  column-gap: 2.5rem;
+  align-items: baseline;
+}
+
+.contact > div + div {
+  margin-top: 0.5rem;
+}
+
+.contact dt {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.contact dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.contact .note {
+  display: inline;
+  margin-left: 0.5rem;
+}
+
+.contact a {
+  display: inline-block;
+  padding-block: 0.15rem;
+}
+
+/* Footer */
+.colophon {
+  margin-top: 3.5rem;
+  padding-bottom: 3rem;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.colophon p {
+  margin: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* Narrow screens: dates move above each entry */
+@media (max-width: 40rem) {
+  body {
+    font-size: 1.0625rem;
+  }
+
+  .intro p {
+    font-size: 1.0625rem;
+  }
+
+  .entry,
+  .contact > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .when {
+    padding-top: 0;
+    margin-bottom: 0.15rem;
+  }
+
+  .note {
+    display: inline;
+    margin-left: 0.35rem;
+  }
+
+  .plain {
+    padding-left: 0;
+  }
+
+  .contact > div + div {
+    margin-top: 0.85rem;
+  }
+}
+
+/* Contact line shown only on paper */
+.print-contact {
+  display: none;
+  margin: 0.4rem 0 0;
+  font-family: var(--sans);
+  font-size: 9pt;
+  color: var(--muted);
+}
+
+/* Print: the same page doubles as the PDF CV */
+@media print {
+  @page {
+    size: Letter;
+    margin: 0.5in 0.6in;
+  }
+
+  :root {
+    --paper: #fff;
+    --ink: #000;
+    --muted: #444;
+    --rule: #bbb;
+    --link: #000;
+    --gutter: 1.15in;
+    --measure: 5.6in;
+  }
+
+  html {
+    font-size: 10pt;
+  }
+
+  body {
+    font-size: 10pt;
+    line-height: 1.36;
+  }
+
+  .skip,
+  nav,
+  .intro,
+  .colophon,
+  #contact {
+    display: none;
+  }
+
+  .masthead,
+  main {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .masthead {
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 21pt;
+  }
+
+  .role {
+    font-size: 12pt;
+    margin-top: 0.3rem;
+  }
+
+  .print-contact {
+    display: block;
+  }
+
+  section[id] {
+    margin-top: 0.7rem;
+    padding-top: 0.45rem;
+    break-inside: auto;
+  }
+
+  h2 {
+    font-size: 12pt;
+    margin-bottom: 0.4rem;
+    break-after: avoid;
+  }
+
+  h3 {
+    font-size: 10pt;
+  }
+
+  .entry {
+    column-gap: 0.25in;
+    margin-bottom: 0.45rem;
+    break-inside: avoid;
+  }
+
+  .when,
+  .note {
+    font-size: 8.5pt;
+  }
+
+  .where {
+    margin-bottom: 0.1rem;
+  }
+
+  .what li + li,
+  .plain li + li {
+    margin-top: 0.15rem;
+  }
+
+  .plain {
+    padding-left: calc(var(--gutter) + 0.25in);
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
