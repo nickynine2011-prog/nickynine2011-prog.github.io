@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const require = createRequire(import.meta.url);
 const axeSource = await readFile(require.resolve("axe-core/axe.min.js"), "utf8");
-const types = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png" };
+const types = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png" };
 
 const server = createServer(async (req, res) => {
   const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname));
@@ -55,7 +55,7 @@ for (const path of ["/", "/404.html"]) {
           for (const n of v.nodes.slice(0, 5)) console.log("   ", n.target.join(" "), n.failureSummary?.split("\n")[1] ?? "");
         }
       } else {
-        console.log(`pass ${label}: ${result.passes.length} rules passed, ${result.incomplete.length} need manual review`);
+        console.log(`pass ${label}: ${result.passes.length} rules passed, ${result.incomplete.length} need manual review${result.incomplete.length ? " (" + result.incomplete.map(i => i.id + ": " + i.nodes.map(n => n.target.join(" ")).slice(0, 3).join(", ")).join("; ") + ")" : ""}`);
       }
       await page.close();
     }
