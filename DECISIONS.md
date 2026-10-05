@@ -4,12 +4,12 @@ This file explains every significant choice behind the site: what was chosen, wh
 
 ## 1. Hosting: a GitHub Pages user site (`nickynine2011-prog.github.io`)
 
-**Chosen:** a public repository named `nickynine2011-prog.github.io`, published from the `main` branch root.
+**Chosen:** a public repository named `nickynine2011-prog.github.io` (the original `nikhileshmclaude` repo, renamed), published from the `main` branch root.
 
 **Why:** it is free, needs no build step, and serves over HTTPS with a CDN. A repository with this exact name publishes at the root URL (`https://nickynine2011-prog.github.io/`) rather than a sub-path like `/nikhileshmclaude/`. A shorter URL is easier to type from a CV and looks deliberate.
 
 **Not chosen:**
-- *Project site in the `nikhileshmclaude` repo.* This works, but the URL carries the sub-path `/nikhileshmclaude/`, which is longer and reads like a repository name rather than a person.
+- *Project site under the old repo name.* This works, but the URL would carry the sub-path `/nikhileshmclaude/`, which is longer and reads like a repository name rather than a person.
 - *Netlify, Vercel, Cloudflare Pages.* All are free and good, but each adds a second account and dashboard to maintain. You asked for GitHub.
 - *A custom domain such as nikhileshmoosapeta.com.* It is the single biggest upgrade available (about CA$15–25 a year), but you asked to keep everything free. Adding one later takes about ten minutes: buy the domain, add a `CNAME` file, and set DNS. The site needs no other changes.
 
