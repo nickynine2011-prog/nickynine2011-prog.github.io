@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /DECISIONS.md
+Disallow: /README.md
+Disallow: /tools/
 
 Sitemap: https://nickynine2011-prog.github.io/sitemap.xml

@@ -43,8 +43,9 @@
   --step-2: clamp(1.5rem, 1.37rem + 0.6vw, 1.875rem);
   --step-4: clamp(2.75rem, 1.9rem + 4.2vw, 5rem);
 
-  --gutter: 8.5rem;
-  --gap: 2.5rem;
+  /* The date column fits the longest range ("Nov 2022 – Apr 2023") on one line */
+  --gutter: 10.25rem;
+  --gap: 2rem;
   --measure: 40rem;
   --page: calc(var(--gutter) + var(--gap) + var(--measure));
 
@@ -55,14 +56,14 @@
   :root {
     --paper: #121821;
     --band: #18202b;
-    --surface: #161e29;
+    --surface: #1e2836;
     --ink: #ebe5d8;
     --muted: #a7adb6;
     --rule: #2b3442;
     --accent: #d2b46e;
     --link: #9cc3ee;
     --link-hover: #c4dcf6;
-    --closing-bg: #0c1118;
+    --closing-bg: #1a2433;
     --closing-ink: #ebe5d8;
     --closing-muted: #a7adb6;
   }
@@ -144,6 +145,10 @@ a:hover {
   top: 1rem;
 }
 
+.nw {
+  white-space: nowrap;
+}
+
 .hero,
 .toc,
 main,
@@ -168,15 +173,6 @@ main,
   color: var(--accent);
 }
 
-.num {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 1.05em;
-}
-
 /* ---------- Hero ---------- */
 .hero {
   display: grid;
@@ -187,18 +183,7 @@ main,
 }
 
 .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
   margin: 0 0 1.25rem;
-}
-
-.eyebrow::before {
-  content: "";
-  width: 1.75rem;
-  height: 1px;
-  background: currentColor;
-  flex: none;
 }
 
 h1 {
@@ -210,11 +195,10 @@ h1 {
 }
 
 .tagline {
-  margin: 1rem 0 0;
-  font-size: var(--step-2);
-  font-style: italic;
-  line-height: 1.3;
-  color: var(--accent);
+  margin: 1.1rem 0 0;
+  font-size: var(--step-1);
+  line-height: 1.4;
+  color: var(--muted);
 }
 
 .lead {
@@ -236,7 +220,7 @@ h1 {
   padding: 0;
   list-style: none;
   font-family: var(--sans);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 
@@ -247,6 +231,7 @@ h1 {
 
 .facts {
   align-self: start;
+  max-width: 36rem;
   background: var(--surface);
   border: 1px solid var(--rule);
   border-top: 2px solid var(--accent);
@@ -263,7 +248,7 @@ h1 {
 
 .facts dl > div {
   display: grid;
-  grid-template-columns: 5rem minmax(0, 1fr);
+  grid-template-columns: 5.5rem minmax(0, 1fr);
   gap: 0.75rem;
   padding: 0.6rem 0;
   border-top: 1px solid var(--rule);
@@ -314,74 +299,77 @@ h1 {
 }
 
 .toc a {
-  display: inline-flex;
-  gap: 0.45rem;
-  align-items: baseline;
+  display: inline-block;
   padding-block: 0.3rem;
   color: var(--muted);
   text-decoration: none;
 }
 
-.toc a:hover,
-.toc a[aria-current="true"] {
+.toc a:hover {
   color: var(--ink);
+  text-decoration: underline;
 }
 
-.toc .num {
-  color: var(--accent);
-  font-size: 0.95em;
+/* The current section is marked by weight and an underline, not colour alone */
+.toc a[aria-current] {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
 }
 
-/* Wide screens: the index becomes a fixed rail in the left margin */
-@media (min-width: 82rem) {
+/* Wide screens: the index becomes a rail in the left margin. It sticks
+   while the page scrolls and stops at the end of <main>, so it never
+   sits over the contact band. */
+@media screen and (min-width: 82rem) {
+  .layout {
+    position: relative;
+  }
+
   .toc {
-    position: fixed;
-    top: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     left: max(1.5rem, calc(50% - var(--page) / 2 - 13rem));
-    width: 10rem;
+    z-index: 1;
+    width: 11rem;
     max-width: none;
     margin: 0;
     padding: 0;
-    transform: translateY(-50%);
   }
 
+  /* Centred on the viewport: the list is about 13.5rem tall */
   .toc ol {
+    position: sticky;
+    top: calc(50vh - 6.75rem);
     flex-direction: column;
     gap: 0.15rem;
-    padding: 0;
+    padding: 0 0 0 1rem;
     border: 0;
+    border-left: 1px solid var(--rule);
   }
 
   .toc a {
     position: relative;
-    padding-left: 1.75rem;
   }
 
-  .toc .num {
-    position: absolute;
-    left: 0;
-    width: 1.25rem;
-    text-align: right;
+  .toc a[aria-current] {
+    text-decoration: none;
   }
 
-  .toc a[aria-current="true"]::after {
+  .toc a[aria-current]::before {
     content: "";
     position: absolute;
-    left: -0.9rem;
-    top: 50%;
-    width: 0.5rem;
-    height: 1px;
-    background: var(--accent);
+    left: -1rem;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    border-left: 2px solid var(--accent);
   }
 }
 
 /* ---------- Sections ---------- */
 .section {
   padding-block: 3.25rem;
-}
-
-.section + .section {
-  border-top: 1px solid var(--rule);
 }
 
 /* Full-bleed tonal band without leaving the content column */
@@ -391,20 +379,17 @@ h1 {
   clip-path: inset(0 -100vmax);
 }
 
-.section.band,
-.band + .section {
-  border-top-color: transparent;
-}
-
 .section-head {
   margin-bottom: 2rem;
 }
 
+/* The label over each heading gives the years the section covers */
 .kicker {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin: 0 0 0.6rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .kicker::after {
@@ -412,10 +397,6 @@ h1 {
   flex: 1;
   height: 1px;
   background: var(--rule);
-}
-
-.kicker .num {
-  min-width: 1.4rem;
 }
 
 h2 {
@@ -542,7 +523,8 @@ h3 {
 }
 
 .thumb-lines rect {
-  fill: var(--rule);
+  fill: var(--muted);
+  opacity: 0.35;
 }
 
 .work-kicker {
@@ -565,11 +547,38 @@ h3 {
   color: var(--muted);
 }
 
+.work-body > .work-meta + .work-meta {
+  margin-top: 0.35rem;
+}
+
+.work-meta strong {
+  color: var(--ink);
+}
+
+/* Two featured items side by side, each with a picture large enough to read */
+@media screen and (min-width: 44rem) {
+  .works {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 3rem;
+  }
+
+  .work,
+  .work + .work {
+    display: block;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .thumb {
+    margin-bottom: 1.25rem;
+  }
+}
+
 /* ---------- Training and awards ---------- */
 .columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: 2rem 3rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
   padding-left: calc(var(--gutter) + var(--gap));
 }
 
@@ -606,16 +615,8 @@ h3 {
   padding-block: 4rem 3rem;
 }
 
-.closing .kicker {
-  color: var(--closing-accent);
-}
-
-.closing .kicker::after {
-  background: rgba(255, 255, 255, 0.18);
-}
-
 .closing h2 {
-  font-size: var(--step-4);
+  font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
@@ -625,6 +626,10 @@ h3 {
   margin: 1rem 0 1.5rem;
   font-size: var(--step-1);
   color: var(--closing-muted);
+}
+
+.closing-main > p:last-child {
+  margin: 0;
 }
 
 .closing a {
@@ -641,12 +646,11 @@ h3 {
 }
 
 .email {
-  font-size: var(--step-2);
-  overflow-wrap: anywhere;
+  font-size: clamp(1.125rem, 5.2vw, 1.875rem);
 }
 
 .closing .links {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .colophon {
@@ -656,6 +660,32 @@ h3 {
   font-family: var(--sans);
   font-size: var(--step--1);
   color: var(--closing-muted);
+}
+
+@media (min-width: 60rem) {
+  .closing-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 3rem;
+    align-items: end;
+  }
+
+  .closing .links {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+  }
+
+  .colophon {
+    grid-column: 1 / -1;
+  }
+}
+
+/* In dark mode the navy band is close to the page colour, so it gets an edge */
+@media screen and (prefers-color-scheme: dark) {
+  .closing {
+    border-top: 2px solid var(--closing-accent);
+  }
 }
 
 /* ---------- Narrow screens ---------- */
@@ -683,9 +713,16 @@ h3 {
   .columns {
     padding-left: 0;
   }
+}
 
+@media (max-width: 26rem) {
   .facts dl > div {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+
+  .facts dt {
+    padding-top: 0;
   }
 }
 
@@ -702,6 +739,7 @@ h3 {
     margin: 0.4in 0.55in 0.5in;
   }
 
+  /* One embedded family, so the PDF looks the same whatever machine builds it */
   :root {
     --paper: #fff;
     --band: #fff;
@@ -710,6 +748,7 @@ h3 {
     --rule: #bbb;
     --accent: #444;
     --link: #000;
+    --sans: var(--serif);
     --gutter: 1.15in;
     --gap: 0.25in;
     --measure: 5.6in;
@@ -769,28 +808,22 @@ h3 {
     color: var(--muted);
   }
 
-  .eyebrow::before {
-    display: none;
-  }
-
   .print-contact {
     order: 3;
     display: block;
     margin: 0.4rem 0 0;
-    font-family: var(--sans);
     font-size: 9pt;
     color: var(--muted);
+  }
+
+  .print-contact a {
+    color: inherit;
   }
 
   .section {
     margin-top: 0.45rem;
     padding-block: 0.35rem 0;
     border-top: 1px solid var(--rule);
-  }
-
-  .section.band,
-  .band + .section {
-    border-top-color: var(--rule);
   }
 
   .band {
@@ -823,6 +856,17 @@ h3 {
 
   .work-when {
     display: block;
+  }
+
+  /* The poster entry may run across the page break, so page 1 has no gap */
+  .work {
+    break-inside: auto;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .work h3 {
+    break-after: avoid;
   }
 
   .works {
@@ -868,13 +912,21 @@ h3 {
     border-top: 0;
   }
 
+  /* Separators are real characters so the PDF text copies cleanly */
   .plain .note {
     display: inline;
-    margin-left: 0.4rem;
+    margin: 0;
+  }
+
+  .plain .note::before {
+    content: " · ";
+  }
+
+  .awards .note::before {
+    content: ", ";
   }
 
   .columns {
-    grid-template-columns: 1fr;
     gap: 0.25rem;
     padding-left: calc(var(--gutter) + var(--gap));
   }
@@ -882,6 +934,7 @@ h3 {
   .list-title {
     margin-bottom: 0.2rem;
     font-size: 8.5pt;
+    letter-spacing: 0.04em;
     color: var(--muted);
   }
 

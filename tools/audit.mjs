@@ -1,5 +1,6 @@
 // Runs axe-core (WCAG 2.2 AA rules) against index.html and 404.html
-// in both light and dark colour schemes. Exits non-zero on any violation.
+// in both light and dark colour schemes, then checks the side index when
+// scrolled to the bottom. Exits non-zero on any failure.
 //
 // Usage (from the repo root, after `npm install --prefix tools`):
 //   node tools/audit.mjs
@@ -59,6 +60,34 @@ for (const path of ["/", "/404.html"]) {
       }
       await page.close();
     }
+  }
+}
+
+// The side index only appears on wide screens and moves as the page scrolls,
+// so check it scrolled to the bottom as well: it must stop above the contact
+// band and mark Contact as the current section.
+for (const colorScheme of ["light", "dark"]) {
+  for (const [width, height] of [[1366, 768], [1440, 900], [1920, 1080], [2560, 1440]]) {
+    const page = await browser.newPage({ viewport: { width, height }, colorScheme });
+    await page.goto(base + "/", { waitUntil: "networkidle" });
+    await page.evaluate(() => {
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    });
+    await page.waitForTimeout(200);
+    const { railBottom, footerTop, current } = await page.evaluate(() => ({
+      railBottom: document.querySelector(".toc ol").getBoundingClientRect().bottom,
+      footerTop: document.querySelector(".closing").getBoundingClientRect().top,
+      current: document.querySelector(".toc a[aria-current]")?.textContent ?? null,
+    }));
+    const label = `side index ${colorScheme} ${width}x${height} at bottom`;
+    if (railBottom > footerTop || current !== "Contact") {
+      failures += 1;
+      console.log(`FAIL ${label}: rail bottom ${Math.round(railBottom)}, footer top ${Math.round(footerTop)}, current ${current}`);
+    } else {
+      console.log(`pass ${label}: clear of the footer, Contact current`);
+    }
+    await page.close();
   }
 }
 

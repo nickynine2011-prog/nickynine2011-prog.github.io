@@ -1,23 +1,39 @@
 // Highlights the current section in the side index.
 // Progressive enhancement: the page works fully without this file.
 (function () {
-  var links = document.querySelectorAll('.toc a[href^="#"]');
-  if (!links.length || !('IntersectionObserver' in window)) return;
+  var links = [].slice.call(document.querySelectorAll('.toc a[href^="#"]'));
+  var targets = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+  if (!links.length) return;
 
-  var byId = {};
-  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var queued = false;
 
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      links.forEach(function (a) { a.removeAttribute('aria-current'); });
-      var link = byId[entry.target.id];
-      if (link) link.setAttribute('aria-current', 'true');
+  // The current section is the last one whose top has passed 40% of the
+  // viewport. At the very bottom of the page the last section wins, since
+  // a short final section can never reach that line on a tall screen.
+  function update() {
+    queued = false;
+    var line = window.innerHeight * 0.4;
+    var current = -1;
+    targets.forEach(function (el, i) {
+      if (el && el.getBoundingClientRect().top <= line) current = i;
     });
-  }, { rootMargin: '-40% 0px -55% 0px' });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = targets.length - 1;
+    }
+    links.forEach(function (a, i) {
+      if (i === current) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
+  }
 
-  Object.keys(byId).forEach(function (id) {
-    var el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
+  function queue() {
+    if (!queued) {
+      queued = true;
+      window.requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  update();
 })();
