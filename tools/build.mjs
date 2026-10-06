@@ -17,6 +17,7 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const types = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
+  ".js": "text/javascript",
   ".svg": "image/svg+xml",
   ".woff2": "font/woff2",
   ".png": "image/png",
@@ -51,6 +52,8 @@ const browser = await chromium.launch(
   await page.emulateMedia({ media: "print" });
   // Reuse the "Updated ..." date from the page footer so the PDF never disagrees with the site.
   const updated = await page.textContent(".colophon time");
+  // The PDF viewer shows the document title, so name it as a CV.
+  await page.evaluate(() => { document.title = "Nikhilesh Moosapeta, CV"; });
   await page.pdf({
     path: join(root, "Nikhilesh-Moosapeta-CV.pdf"),
     format: "Letter",
@@ -74,16 +77,17 @@ const browser = await chromium.launch(
   await page.setContent(`<!doctype html>
 <html><head><link rel="stylesheet" href="${base}/assets/site.css">
 <style>
-  html, body { margin: 0; width: 1200px; height: 630px; background: #faf8f4; color: #1c1f23; }
-  .card { box-sizing: border-box; height: 100%; padding: 96px 104px; display: flex; flex-direction: column; justify-content: space-between; }
-  .name { font-family: "Source Serif 4", serif; font-weight: 600; font-size: 104px; line-height: 1; letter-spacing: -0.015em; margin: 0; }
-  .role { font-family: "Source Serif 4", serif; font-size: 40px; color: #5b5f66; margin: 28px 0 0; }
-  .foot { display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #ddd8cf; padding-top: 28px;
-          font-family: system-ui, sans-serif; font-size: 26px; color: #5b5f66; }
+  html, body { margin: 0; width: 1200px; height: 630px; background: #f7f3ea; color: #17233a; }
+  .card { box-sizing: border-box; height: 100%; padding: 88px 104px; display: flex; flex-direction: column; justify-content: space-between; }
+  .eyebrow { font: 600 20px/1 system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: #7a5c22; margin: 0 0 30px; }
+  .name { font-family: "Source Serif 4", serif; font-weight: 600; font-size: 104px; line-height: 1; letter-spacing: -0.02em; margin: 0; }
+  .tag { font-family: "Source Serif 4", serif; font-size: 36px; color: #57606b; margin: 28px 0 0; }
+  .foot { display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #ddd4c3; padding-top: 26px;
+          font-family: system-ui, sans-serif; font-size: 26px; color: #57606b; }
   .mark { width: 56px; height: 56px; }
 </style></head>
 <body><div class="card">
-  <div><p class="name">Nikhilesh Moosapeta</p><p class="role">Medical student, RCSI Medical University of Bahrain</p></div>
+  <div><p class="eyebrow">Medical student · RCSI Bahrain</p><p class="name">Nikhilesh Moosapeta</p><p class="tag">Interested in orthopaedics, primary care and patient safety.</p></div>
   <div class="foot"><span>nickynine2011-prog.github.io</span><img class="mark" src="${base}/favicon.svg" alt=""></div>
 </div></body></html>`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
